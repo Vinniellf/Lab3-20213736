@@ -1,9 +1,6 @@
 package com.example.tareagtics.Controllers;
 
-import com.example.tareagtics.Models.Entities.Categoria;
-import com.example.tareagtics.Models.Entities.Employee;
-import com.example.tareagtics.Models.Entities.Job;
-import com.example.tareagtics.Models.Entities.Receta;
+import com.example.tareagtics.Models.Entities.*;
 import com.example.tareagtics.Models.Repositories.CategoriaRepository;
 import com.example.tareagtics.Models.Repositories.RecetaRepository;
 import org.springframework.stereotype.Controller;
@@ -84,25 +81,65 @@ public class RecetaController {
 
     @GetMapping("filtrar")
     public String FiltrarReceta(@RequestParam(value = "nombre", required = false) String nombre,
-                                @RequestParam(value = "categoria", required = false) String categoria,
+                                @RequestParam(value = "categoria", required = false) Integer categoria,
                                 Model model) {
         List<Receta> listaRecetas;
         List<Categoria> listaCategoria = categoriaRepository.findAll();
-        if (nombre != null && !nombre.isEmpty() && categoria != null && !categoria.isEmpty()) {
+        if (nombre != null && !nombre.isEmpty() && categoria != null) {
             // Filtrar por nombre y categoría
-            listaRecetas =  recetaRepository.findByNombreContainingIgnoreCaseAndCategoriaIgnoreCase(nombre, categoria);
+            listaRecetas =  recetaRepository.buscarAmbos(nombre, categoria);
         } else if (nombre != null && !nombre.isEmpty()) {
             // Filtrar solo por nombre
-            listaRecetas = recetaRepository.findByNombreContainingIgnoreCase(nombre);
-        } else if (categoria != null && !categoria.isEmpty()) {
+            listaRecetas =  recetaRepository.buscarRecetaByNombre(nombre);
+        } else if (categoria != null) {
             // Filtrar solo por categoría
-            listaRecetas =  recetaRepository.findByCategoriaIgnoreCase(categoria);
+            listaRecetas = recetaRepository.buscarRecetaByCategoria(categoria);
         } else {
             // Si no se aplican filtros, retornar todas las recetas
             listaRecetas =  recetaRepository.findAll();
         }
         model.addAttribute("lista", listaRecetas);
         model.addAttribute("listaCategoria", listaCategoria);
+        return "listaRecetas";
+    }
+
+    @GetMapping("filtrar2")
+    public String Filtrar2(@RequestParam(value = "dificultad", required = false) Integer dificultad,
+                           Model model){
+
+        List<Receta> listaRecetas1;
+        List<Categoria> listaCategoria = categoriaRepository.findAll();
+        if(dificultad == 1){
+            listaRecetas1 = recetaRepository.findAll();
+        } else if(dificultad == 2){
+            listaRecetas1 = recetaRepository.creciente();
+        } else {
+            listaRecetas1 = recetaRepository.decreciente();
+        }
+
+
+        model.addAttribute("lista", listaRecetas1);
+        model.addAttribute("listaCategoria", listaCategoria);
+        return "listaRecetas";
+
+    }
+
+    @GetMapping("filtrar3")
+    public String Filtrar3(@RequestParam(value = "ingredientes", required = false) Integer ingredientes,
+                           Model model){
+
+        List<Receta> listaRecetas;
+        List<Categoria> listaCategoria = categoriaRepository.findAll();
+        if(ingredientes == 1){
+            listaRecetas = recetaRepository.findAll();
+        } else if(ingredientes == 2){
+            listaRecetas = recetaRepository.crecienteIngrediente();
+        } else{
+            listaRecetas = recetaRepository.derecienteIngrediente();
+        }
+        model.addAttribute("listaCategoria", listaCategoria);
+        model.addAttribute("lista", listaRecetas);
+
         return "listaRecetas";
 
     }

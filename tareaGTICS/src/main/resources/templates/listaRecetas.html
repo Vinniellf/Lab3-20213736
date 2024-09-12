@@ -14,7 +14,7 @@
 
     <h2 class="mb-4">Lista de Recetas</h2>
 
-    <form action="#" th:action="@{'/recetas/filtrar'}" method="get">
+    <form action="#" th:action="@{'/receta/filtrar'}" method="get">
         <!-- Filtro por Nombre -->
 
         <div class="row mb-3">
@@ -41,6 +41,50 @@
                 <button type="submit" class="btn btn-success">Filtrar</button>
             </div>
         </div>
+    </form>
+
+        <form action="#" th:action="@{'/receta/filtrar2'}" method="get">
+        <div class="row mb-3">
+
+            <div class="col-md-4">
+                <label for="dificultad" class="form-label">Filtrar por dificultad:</label>
+                <select class="form-select" id="dificultad" name="dificultad">
+                    <option value="1">Sin filtro</option>
+                    <option value="2">De menor a mayor</option>
+                    <option value="3">De mayor a menor</option>
+                </select>
+            </div>
+
+            <!-- Columna para el botón -->
+            <div class="col-md-4 d-flex align-items-end">
+                <button type="submit" class="btn btn-success">Filtrar</button>
+            </div>
+        </div>
+
+
+
+    </form>
+
+
+    <form action="#" th:action="@{'/receta/filtrar3'}" method="get">
+        <div class="row mb-3">
+
+            <div class="col-md-4">
+                <label for="ingredientes" class="form-label">Filtrar por cantidad de ingredientes:</label>
+                <select class="form-select" id="ingredientes" name="ingredientes">
+                    <option value="1">Sin filtro</option>
+                    <option value="2">De menor a mayor</option>
+                    <option value="3">De mayor a menor</option>
+                </select>
+            </div>
+
+            <!-- Columna para el botón -->
+            <div class="col-md-4 d-flex align-items-end">
+                <button type="submit" class="btn btn-success">Filtrar</button>
+            </div>
+        </div>
+
+
 
     </form>
     <!-- Alerta
@@ -61,7 +105,7 @@
         <tr th:each="receta, info :${lista}">
             <td th:text="${info.index + 1}"></td>
             <td th:text="${receta.nombre}"></td>
-            <td th:text="${receta.getTiempoPreparacion()}"></td>
+            <td th:text="${receta.tiempoPreparacion}"></td>
             <td> <a class="btn btn-info" th:href="@{'/receta/leer?idReceta=' + ${receta.idreceta}}">Leer</a></td>
             <td> <a class="btn btn-success" th:href="@{'/receta/editar?idReceta=' + ${receta.idreceta}}">Editar</a></td>
             <td> <a class="btn btn-danger" th:href="@{'/receta/borrar?idReceta=' + ${receta.idreceta}}">Borrar</a></td>
