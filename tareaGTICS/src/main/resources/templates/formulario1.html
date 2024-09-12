@@ -11,6 +11,7 @@
 <div class="container mt-5">
     <h1 class="mb-4">Información</h1>
     <form method="post" th:action="@{'/receta/guardar'}">
+        <input type="hidden" th:field="${receta.idreceta}"/>
         <div class="mb-3">
             <label for="categoria" class="form-label">Categoria</label>
             <select class="form-select" id="categoria" name="categoria">

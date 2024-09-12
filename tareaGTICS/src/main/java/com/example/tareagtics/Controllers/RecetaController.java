@@ -33,7 +33,9 @@ public class RecetaController {
     @GetMapping("/listar")
     public String showRecetas(Model model) {
         List<Receta> listaReceta = recetaRepository.findAll();
+        List<Categoria> listaCategoria = categoriaRepository.findAll();
         model.addAttribute("lista", listaReceta);
+        model.addAttribute("listaCategoria", listaCategoria);
         return "listaRecetas";
     }
 
@@ -78,6 +80,31 @@ public class RecetaController {
         List<Categoria> listaCategoria = categoriaRepository.findAll();
         model.addAttribute("lista", listaCategoria);
         return "formulario1Crear";
+    }
+
+    @GetMapping("filtrar")
+    public String FiltrarReceta(@RequestParam(value = "nombre", required = false) String nombre,
+                                @RequestParam(value = "categoria", required = false) String categoria,
+                                Model model) {
+        List<Receta> listaRecetas;
+        List<Categoria> listaCategoria = categoriaRepository.findAll();
+        if (nombre != null && !nombre.isEmpty() && categoria != null && !categoria.isEmpty()) {
+            // Filtrar por nombre y categoría
+            listaRecetas =  recetaRepository.findByNombreContainingIgnoreCaseAndCategoriaIgnoreCase(nombre, categoria);
+        } else if (nombre != null && !nombre.isEmpty()) {
+            // Filtrar solo por nombre
+            listaRecetas = recetaRepository.findByNombreContainingIgnoreCase(nombre);
+        } else if (categoria != null && !categoria.isEmpty()) {
+            // Filtrar solo por categoría
+            listaRecetas =  recetaRepository.findByCategoriaIgnoreCase(categoria);
+        } else {
+            // Si no se aplican filtros, retornar todas las recetas
+            listaRecetas =  recetaRepository.findAll();
+        }
+        model.addAttribute("lista", listaRecetas);
+        model.addAttribute("listaCategoria", listaCategoria);
+        return "listaRecetas";
+
     }
 
 

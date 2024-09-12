@@ -8,5 +8,12 @@ import java.util.List;
 
 @Repository
 public interface RecetaRepository extends JpaRepository<Receta, Integer> {
+    List<Receta> findByNombreContainingIgnoreCase(String nombre);
+
+    // Buscar recetas por categoría
+    List<Receta> findByCategoriaIgnoreCase(String categoria);
+
+    // Buscar por nombre y categoría al mismo tiempo
+    List<Receta> findByNombreContainingIgnoreCaseAndCategoriaIgnoreCase(String nombre, String categoria);
 
 }

@@ -10,6 +10,7 @@ import java.util.Date;
 public class Receta {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column (name = "idreceta", nullable = false, length = 4)
     private Integer idreceta;
 
@@ -23,12 +24,10 @@ public class Receta {
     private Integer dificultad;
 
     @Column (name = "tiempo_preparacion")
-    private Time tiempoPreparacion;
+    private String tiempoPreparacion;
 
-
-    @ManyToOne
-    @JoinColumn(name = "idcategoria", nullable = false)
-    private Categoria categoria;
+    @Column(name = "idcategoria", nullable = false)
+    private Integer idcategoria;
 
     public Integer getIdreceta() {
         return idreceta;
@@ -62,19 +61,19 @@ public class Receta {
         this.dificultad = dificultad;
     }
 
-    public Categoria getCategoria() {
-        return categoria;
+    public Integer getCategoria() {
+        return idcategoria;
     }
 
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
+    public void setCategoria(Integer categoria) {
+        this.idcategoria = categoria;
     }
 
-    public Time getTiempoPreparacion() {
+    public String getTiempoPreparacion() {
         return tiempoPreparacion;
     }
 
-    public void setTiempoPreparacion(Time tiempoPreparacion) {
+    public void setTiempoPreparacion(String tiempoPreparacion) {
         this.tiempoPreparacion = tiempoPreparacion;
     }
 }

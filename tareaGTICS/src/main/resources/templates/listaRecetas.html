@@ -13,6 +13,36 @@
     </div>
 
     <h2 class="mb-4">Lista de Recetas</h2>
+
+    <form action="#" th:action="@{'/recetas/filtrar'}" method="get">
+        <!-- Filtro por Nombre -->
+
+        <div class="row mb-3">
+            <!-- Columna para el campo de texto -->
+            <div class="col-md-4">
+                <label for="nombre" class="form-label">Buscar por Nombre:</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Nombre de la receta" class="form-control" th:value="${param.nombre}"/>
+            </div>
+
+            <!-- Columna para el campo de categoría -->
+            <div class="col-md-4">
+                <label for="categoria" class="form-label">Filtrar por Categoría:</label>
+                <select class="form-select" id="categoria" name="categoria">
+                    <option value="">Todas las categorías</option>
+                    <option th:each="categoria : ${listaCategoria}"
+                            th:value="${categoria.idcategoria}"
+                            th:text="${categoria.categoria}">
+                    </option>
+                </select>
+            </div>
+
+            <!-- Columna para el botón -->
+            <div class="col-md-4 d-flex align-items-end">
+                <button type="submit" class="btn btn-success">Filtrar</button>
+            </div>
+        </div>
+
+    </form>
     <!-- Alerta
     <div th:if="${mensaje}" th:class="${'alert ' + alertClass}" role="alert">
         <span th:text="${mensaje}"></span>
